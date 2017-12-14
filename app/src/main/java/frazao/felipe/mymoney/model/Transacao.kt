@@ -8,5 +8,6 @@ import java.util.Calendar
  */
 class Transacao(val titulo: String,
                 val valor: BigDecimal,
-                val categoria: String,
-                val data: Calendar)
+                val tipo: Tipo,
+                val categoria: String = "Indefinida",
+                val data: Calendar =  Calendar.getInstance())
