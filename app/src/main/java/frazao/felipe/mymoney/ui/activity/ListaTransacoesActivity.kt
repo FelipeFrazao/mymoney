@@ -26,7 +26,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
                 ),
                 Transacao("CMS do Danilo",
                         BigDecimal(800.00),
-                        "Ganho",
+                        "Pagamento",
                         Calendar.getInstance()
                 ),
                 Transacao("Celular",
