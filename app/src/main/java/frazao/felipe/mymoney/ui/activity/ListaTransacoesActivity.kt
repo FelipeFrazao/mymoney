@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter
 import frazao.felipe.mymoney.R
+import frazao.felipe.mymoney.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 
 /**
@@ -19,7 +20,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, transacoesList)
 
-        lista_transacoes_listview.setAdapter(arrayAdapter)
+        lista_transacoes_listview.setAdapter(ListaTransacoesAdapter(transacoesList, this))
     }
 
 }
