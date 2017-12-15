@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.transacao_item.view.*
 class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
                               private val context: Context) : BaseAdapter() {
 
-    private fun addValoreIcone(transacao: Transacao, viewTransacoes: View) {
+    private fun addValorEIcone(transacao: Transacao, view: View) {
         var cor : Int
         var icone: Int
         // verifica o tipo de receita configura icone e a cor da transacao
@@ -31,13 +31,13 @@ class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
             cor = ContextCompat.getColor(context, R.color.despesa)
         }
 
-        viewTransacoes.transacao_icone
+        view.transacao_icone
                 .setBackgroundResource(icone)
 
-        viewTransacoes.transacao_valor
+        view.transacao_valor
                 .setTextColor(cor)
 
-        viewTransacoes.transacao_valor.text = transacao.valor.formataParaBR()
+        view.transacao_valor.text = transacao.valor.formataParaBR()
     }
 
     // pegando a view
@@ -48,7 +48,7 @@ class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
 
         val transacao = transacoes[posicao]
 
-        addValoreIcone(transacao, viewTransacoes)
+        addValorEIcone(transacao, viewTransacoes)
 
         // Atribuindo valores dos campos
         viewTransacoes.transacao_titulo.text = transacao.titulo
@@ -56,7 +56,6 @@ class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
         viewTransacoes.transacao_data.text = transacao.data.formataParaBR()
 
         return viewTransacoes
-
     }
 
     override fun getItem(posicao: Int): Transacao {
