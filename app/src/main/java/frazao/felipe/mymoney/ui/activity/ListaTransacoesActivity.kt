@@ -14,33 +14,37 @@ import java.math.BigDecimal
  */
 class ListaTransacoesActivity : AppCompatActivity() {
 
+    // Inserindo itens na lista
+    val transacoesList = listOf(
+            Transacao(titulo = "Fone Xiaomi",
+                    valor =  BigDecimal(73.5),
+                    categoria = "Compra",
+                    tipo = Tipo.DESPESA
+            ),
+            Transacao("CMS do Danilo",
+                    BigDecimal(800.00),
+                    Tipo.RECEITA,
+                    "Pagamento"
+            ),
+            Transacao("Holly Chuck Burger",
+                    BigDecimal(130.00),
+                    Tipo.DESPESA,
+                    "Comida"
+            ),
+            Transacao(titulo = "Celular",
+                    valor = BigDecimal(550.00),
+                    tipo = Tipo.DESPESA
+            ))
+
+    private fun configuraLista() {
+        lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-        // Inserindo itens na lista
-        val transacoesList = listOf(
-                Transacao(titulo = "Fone Xiaomi",
-                        valor =  BigDecimal(73.5),
-                        categoria = "Compra",
-                        tipo = Tipo.DESPESA
-                ),
-                Transacao("CMS do Danilo",
-                        BigDecimal(800.00),
-                        Tipo.RECEITA,
-                        "Pagamento"
-                ),
-                Transacao("Holly Chuck Burger",
-                        BigDecimal(130.00),
-                        Tipo.DESPESA,
-                        "Comida"
-                ),
-                Transacao(titulo = "Celular",
-                        valor = BigDecimal(550.00),
-                        tipo = Tipo.DESPESA
-                ))
-
         // configurando o adapter
-        lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
+        configuraLista()
     }
 }

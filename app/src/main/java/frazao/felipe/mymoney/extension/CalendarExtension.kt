@@ -8,6 +8,5 @@ import java.util.*
  */
     fun Calendar.formataParaBR() : String {
         val formatoData = "dd/MM/yyyy"
-        val dataFormatada = SimpleDateFormat(formatoData).format(this.time)
-        return dataFormatada
+         return SimpleDateFormat(formatoData).format(this.time)
     }

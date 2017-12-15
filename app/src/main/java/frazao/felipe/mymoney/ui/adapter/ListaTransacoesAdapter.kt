@@ -15,12 +15,30 @@ import kotlinx.android.synthetic.main.transacao_item.view.*
 /**
  * Created by felipefrazao on 14/12/2017.
  */
-class ListaTransacoesAdapter (transacoes: List<Transacao>,
-                              context: Context) : BaseAdapter() {
+class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
+                              private val context: Context) : BaseAdapter() {
 
-    // declaracao de variaveis
-    private val transacoes = transacoes
-    private val context = context
+    private fun addValoreIcone(transacao: Transacao, viewTransacoes: View) {
+        var cor : Int
+        var icone: Int
+        // verifica o tipo de receita configura icone e a cor da transacao
+        if (transacao.tipo == Tipo.RECEITA) {
+            cor = ContextCompat.getColor(context, R.color.receita)
+            icone = R.drawable.icone_transacao_item_receita
+
+        } else {
+            icone = R.drawable.icone_transacao_item_receita
+            cor = ContextCompat.getColor(context, R.color.despesa)
+        }
+
+        viewTransacoes.transacao_icone
+                .setBackgroundResource(icone)
+
+        viewTransacoes.transacao_valor
+                .setTextColor(cor)
+
+        viewTransacoes.transacao_valor.text = transacao.valor.formataParaBR()
+    }
 
     // pegando a view
     override fun getView(posicao: Int, view: View?, parent: ViewGroup?): View {
@@ -30,20 +48,10 @@ class ListaTransacoesAdapter (transacoes: List<Transacao>,
 
         val transacao = transacoes[posicao]
 
-        if (transacao.tipo == Tipo.RECEITA) {
-            viewTransacoes.transacao_icone
-                    .setBackgroundResource(R.drawable.icone_transacao_item_receita)
-            viewTransacoes.transacao_valor
-                    .setTextColor(ContextCompat.getColor(context, R.color.receita))
-        } else {
-            viewTransacoes.transacao_icone
-                    .setBackgroundResource(R.drawable.icone_transacao_item_despesa)
-            viewTransacoes.transacao_valor
-                    .setTextColor(ContextCompat.getColor(context, R.color.despesa))
-        }
+        addValoreIcone(transacao, viewTransacoes)
 
+        // Atribuindo valores dos campos
         viewTransacoes.transacao_titulo.text = transacao.titulo
-        viewTransacoes.transacao_valor.text = transacao.valor.formataParaBR()
         viewTransacoes.transacao_categoria.text = transacao.categoria
         viewTransacoes.transacao_data.text = transacao.data.formataParaBR()
 

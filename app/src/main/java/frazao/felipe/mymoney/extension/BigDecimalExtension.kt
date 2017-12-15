@@ -11,8 +11,7 @@ import java.util.*
 fun BigDecimal.formataParaBR() : String {
     val formatMoedaBr = DecimalFormat
             .getCurrencyInstance(Locale("pt", "br"))
-    val moedaFormatada = formatMoedaBr.format(this)
+    return formatMoedaBr.format(this)
             .replace("R$", "R$ ")
 
-    return moedaFormatada
 }
