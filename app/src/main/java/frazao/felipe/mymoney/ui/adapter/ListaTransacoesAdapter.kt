@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import frazao.felipe.mymoney.R
-import frazao.felipe.mymoney.extension.formatDataBR
+import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
@@ -43,9 +43,9 @@ class ListaTransacoesAdapter (transacoes: List<Transacao>,
         }
 
         viewTransacoes.transacao_titulo.text = transacao.titulo
-        viewTransacoes.transacao_valor.text = transacao.valor.toString()
+        viewTransacoes.transacao_valor.text = transacao.valor.formataParaBR()
         viewTransacoes.transacao_categoria.text = transacao.categoria
-        viewTransacoes.transacao_data.text = transacao.data.formatDataBR()
+        viewTransacoes.transacao_data.text = transacao.data.formataParaBR()
 
         return viewTransacoes
 

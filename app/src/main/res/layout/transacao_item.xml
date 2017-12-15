@@ -14,8 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/transacao_icone"
@@ -27,13 +26,13 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/transacao_titulo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
@@ -62,12 +61,12 @@
             <TextView
                 android:id="@+id/transacao_valor"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="41dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="right|bottom"
                 android:textSize="20dp"
-                android:textStyle="bold"
+                android:textStyle=""
                 tools:text="R$ 100,00" />
 
         </LinearLayout>

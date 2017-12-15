@@ -30,6 +30,11 @@ class ListaTransacoesActivity : AppCompatActivity() {
                         Tipo.RECEITA,
                         "Pagamento"
                 ),
+                Transacao("Holly Chuck Burger",
+                        BigDecimal(130.00),
+                        Tipo.DESPESA,
+                        "Comida"
+                ),
                 Transacao(titulo = "Celular",
                         valor = BigDecimal(550.00),
                         tipo = Tipo.DESPESA
