@@ -18,19 +18,26 @@ import kotlinx.android.synthetic.main.transacao_item.view.*
 class ListaTransacoesAdapter (transacoes: List<Transacao>,
                               context: Context) : BaseAdapter() {
 
+    // declaracao de variaveis
     private val transacoes = transacoes
     private val context = context
 
+    // pegando a view
     override fun getView(posicao: Int, view: View?, parent: ViewGroup?): View {
+        // passando a view que será inflada e setando a view group e a criacao da view
         val viewTransacoes : View = LayoutInflater.from(context)
                 .inflate(R.layout.transacao_item, parent, false)
 
         val transacao = transacoes[posicao]
 
         if (transacao.tipo == Tipo.RECEITA) {
+            viewTransacoes.transacao_icone
+                    .setBackgroundResource(R.drawable.icone_transacao_item_receita)
             viewTransacoes.transacao_valor
                     .setTextColor(ContextCompat.getColor(context, R.color.receita))
         } else {
+            viewTransacoes.transacao_icone
+                    .setBackgroundResource(R.drawable.icone_transacao_item_despesa)
             viewTransacoes.transacao_valor
                     .setTextColor(ContextCompat.getColor(context, R.color.despesa))
         }
@@ -46,7 +53,7 @@ class ListaTransacoesAdapter (transacoes: List<Transacao>,
 
     override fun getItem(posicao: Int): Transacao {
         return transacoes[posicao]
-        }
+    }
 
     override fun getItemId(p0: Int): Long {
         return 0

@@ -28,8 +28,8 @@
         android:id="@+id/lista_transacoes_adiciona_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -37,7 +37,7 @@
         fab:menu_colorNormal="#007bff"
         fab:menu_colorPressed="#007bff"
         fab:menu_colorRipple="#007bff"
-        fab:menu_labels_colorNormal="#f8f9fa"
+        fab:menu_labels_colorNormal="#fff"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_labels_textColor="#000">
@@ -60,8 +60,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_bottom_left_white_24dp"
             fab:fab_colorNormal="@color/despesa"
-            fab:fab_colorPressed="#E8004A"
-            fab:fab_colorRipple="#C20024"
+            fab:fab_colorPressed="#ee0000"
+            fab:fab_colorRipple="#ee0000"
             fab:fab_label="@string/adiciona_despesa"
             fab:fab_size="mini" />
 

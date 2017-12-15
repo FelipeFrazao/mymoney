@@ -18,6 +18,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
+        // Inserindo itens na lista
         val transacoesList = listOf(
                 Transacao(titulo = "Fone Xiaomi",
                         valor =  BigDecimal(73.5),
@@ -34,6 +35,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
                         tipo = Tipo.DESPESA
                 ))
 
+        // configurando o adapter
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
     }
 }
