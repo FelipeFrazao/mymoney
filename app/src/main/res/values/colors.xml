@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#367C25</color>
-    <color name="colorPrimaryDark">#256c13</color>
-    <color name="colorAccent">#367C25</color>
-    <color name="colorBackground">#C1C1C1</color>
-    <color name="receita">#607890</color>
-    <color name="despesa">#B22318</color>
+    <color name="colorPrimary">#007bff</color>
+    <color name="colorPrimaryDark">#007bff</color>
+    <color name="colorAccent">#007bff</color>
+    <color name="colorBackground">#f8f9fa</color>
+    <color name="receita">#007bff</color>
+    <color name="despesa">#ee0000</color>
 </resources>

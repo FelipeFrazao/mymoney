@@ -34,6 +34,6 @@ class ListaTransacoesActivity : AppCompatActivity() {
                         tipo = Tipo.DESPESA
                 ))
 
-        lista_transacoes_listview.setAdapter(ListaTransacoesAdapter(transacoesList, this))
+        lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
     }
 }

@@ -1,12 +1,14 @@
 package frazao.felipe.mymoney.ui.adapter
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import frazao.felipe.mymoney.R
 import frazao.felipe.mymoney.extension.formatDataBR
+import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
@@ -24,6 +26,14 @@ class ListaTransacoesAdapter (transacoes: List<Transacao>,
                 .inflate(R.layout.transacao_item, parent, false)
 
         val transacao = transacoes[posicao]
+
+        if (transacao.tipo == Tipo.RECEITA) {
+            viewTransacoes.transacao_valor
+                    .setTextColor(ContextCompat.getColor(context, R.color.receita))
+        } else {
+            viewTransacoes.transacao_valor
+                    .setTextColor(ContextCompat.getColor(context, R.color.despesa))
+        }
 
         viewTransacoes.transacao_titulo.text = transacao.titulo
         viewTransacoes.transacao_valor.text = transacao.valor.toString()
