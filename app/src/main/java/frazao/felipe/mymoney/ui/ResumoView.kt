@@ -39,15 +39,13 @@ class ResumoView (private val view: View,
         var cor : Int
         val total = resumo.total()
 
-        when (total < BigDecimal.ZERO) {
-            true -> cor = ContextCompat.getColor(context, R.color.despesa)
-            false -> cor = ContextCompat.getColor(context, R.color.receita)
+        when (total.compareTo(BigDecimal.ZERO)) {
+            -1 -> cor = ContextCompat.getColor(context, R.color.despesa)
+            1 -> cor = ContextCompat.getColor(context, R.color.receita)
+            else -> {
+                cor = ContextCompat.getColor(context, R.color.neutra)
+            }
         }
-//        if (total < BigDecimal.ZERO) {
-//            cor = ContextCompat.getColor(context, R.color.despesa)
-//        } else {
-//            cor = ContextCompat.getColor(context, R.color.receita)
-//        }
 
         view.resumo_card_total.setTextColor(cor)
         view.resumo_card_total.text = total.formataParaBR()

@@ -10,6 +10,7 @@ import frazao.felipe.mymoney.ui.ResumoView
 import frazao.felipe.mymoney.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import java.math.BigDecimal
+import java.util.*
 
 /**
  * Created by felipefrazao on 13/12/2017.
@@ -30,6 +31,11 @@ class ListaTransacoesActivity : AppCompatActivity() {
             ),
             Transacao("Holly Chuck Burger",
                     BigDecimal(130.00),
+                    Tipo.DESPESA,
+                    "Comida"
+            ),
+            Transacao("Holly Chuck Burger",
+                    BigDecimal(46.50),
                     Tipo.DESPESA,
                     "Comida"
             ),

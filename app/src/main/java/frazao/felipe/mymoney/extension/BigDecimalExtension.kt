@@ -13,5 +13,6 @@ fun BigDecimal.formataParaBR() : String {
             .getCurrencyInstance(Locale("pt", "br"))
     return formatMoedaBr.format(this)
             .replace("R$", "R$ ")
+            .replace("-R$ ", "R$ -")
 
 }
