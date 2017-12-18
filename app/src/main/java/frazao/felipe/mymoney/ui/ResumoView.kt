@@ -1,6 +1,9 @@
 package frazao.felipe.mymoney.ui
 
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.View
+import frazao.felipe.mymoney.R
 import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Resumo
 import frazao.felipe.mymoney.model.Transacao
@@ -12,7 +15,8 @@ import java.math.BigDecimal
  */
 
 class ResumoView (private val view: View,
-                  transacoes: List<Transacao>) {
+                  transacoes: List<Transacao>,
+                  private val context: Context) {
 
     var totalReceita = BigDecimal.ZERO
     var totalDespesa = BigDecimal.ZERO
@@ -25,12 +29,16 @@ class ResumoView (private val view: View,
 
         view.resumo_card_receita.text = totalReceita.formataParaBR()
 
+        view.resumo_card_receita.setTextColor(ContextCompat.getColor(context, R.color.receita))
+
     }
 
     fun adicionarDespesaNoResumo() {
 
         totalDespesa = resumo.despesa()
         view.resumo_card_despesa.text = totalDespesa.formataParaBR()
+        view.resumo_card_despesa.setTextColor(ContextCompat.getColor(context, R.color.despesa))
+
     }
     fun totalFinancas() {
         val total = resumo.total()
