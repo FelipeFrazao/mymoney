@@ -58,4 +58,10 @@ class ResumoView (private val view: View,
             text = total.formataParaBR()
         }
     }
+
+    fun atualiza () {
+        adicionaReceitaNoResumo()
+        adicionarDespesaNoResumo()
+        totalFinancas()
+    }
 }

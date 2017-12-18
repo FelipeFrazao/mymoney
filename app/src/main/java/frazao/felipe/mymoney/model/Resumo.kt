@@ -10,12 +10,15 @@ class Resumo(private val transacoes: List<Transacao>) {
     var totalDespesa = BigDecimal.ZERO
 
     fun receita(): BigDecimal {
-        for (transacao in transacoes) {
-            if (transacao.tipo == Tipo.RECEITA) {
-                totalReceita = totalReceita.plus(transacao.valor)
-            }
-        }
-        return  totalReceita
+//        for (transacao in transacoes) {
+//            if (transacao.tipo == Tipo.RECEITA) {
+//                totalReceita = totalReceita.plus(transacao.valor)
+//            }
+//        }
+
+        var somaReceita = transacoes.filter{ transacao -> transacao.tipo == Tipo.RECEITA }
+                .sumByDouble{ transacao -> transacao.valor.toDouble() }
+        return  BigDecimal(somaReceita)
     }
 
     fun despesa(): BigDecimal {
@@ -25,10 +28,12 @@ class Resumo(private val transacoes: List<Transacao>) {
                 totalDespesa = totalDespesa.plus(transacao.valor)
             }
         }
-        return  totalDespesa
+        var somaSubtracao = transacoes.filter { transacao -> transacao.tipo == Tipo.DESPESA }
+                .sumByDouble { transacao -> transacao.valor.toDouble() }
+        return  BigDecimal(somaSubtracao)
     }
 
     fun total(): BigDecimal {
-        return totalReceita - totalDespesa
+        return receita() - despesa()
     }
 }
