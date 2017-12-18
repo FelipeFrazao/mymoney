@@ -22,32 +22,40 @@ class ResumoView (private val view: View,
     var totalDespesa = BigDecimal.ZERO
     private val resumo: Resumo = Resumo(transacoes)
 
-    fun adicionaReceitaNoResumo() {
-        totalReceita = resumo.receita()
-        view.resumo_card_receita.text = totalReceita.formataParaBR()
-        view.resumo_card_receita.setTextColor(ContextCompat.getColor(context, R.color.receita))
+    private val corReceita = ContextCompat.getColor(context, R.color.receita)
+    private val corDepesa = ContextCompat.getColor(context, R.color.despesa)
+    private var corTotal : Int = 0
 
+    fun adicionaReceitaNoResumo() {
+
+        with (view.resumo_card_receita) {
+            totalReceita = resumo.receita()
+            text = totalReceita.formataParaBR()
+            setTextColor(corReceita)
+        }
     }
 
     fun adicionarDespesaNoResumo() {
-        totalDespesa = resumo.despesa()
-        view.resumo_card_despesa.text = totalDespesa.formataParaBR()
-        view.resumo_card_despesa.setTextColor(ContextCompat.getColor(context, R.color.despesa))
 
+        with (view.resumo_card_despesa) {
+            totalDespesa = resumo.despesa()
+            text = totalDespesa.formataParaBR()
+            setTextColor(corDepesa)
+        }
     }
     fun totalFinancas() {
-        var cor : Int
         val total = resumo.total()
 
         when (total.compareTo(BigDecimal.ZERO)) {
-            -1 -> cor = ContextCompat.getColor(context, R.color.despesa)
-            1 -> cor = ContextCompat.getColor(context, R.color.receita)
+            -1 -> corTotal = corDepesa
+            1 -> corTotal = corReceita
             else -> {
-                cor = ContextCompat.getColor(context, R.color.neutra)
+                corTotal = ContextCompat.getColor(context, R.color.neutra)
             }
         }
-
-        view.resumo_card_total.setTextColor(cor)
-        view.resumo_card_total.text = total.formataParaBR()
+        with (view.resumo_card_total) {
+            setTextColor(corTotal)
+            text = total.formataParaBR()
+        }
     }
 }

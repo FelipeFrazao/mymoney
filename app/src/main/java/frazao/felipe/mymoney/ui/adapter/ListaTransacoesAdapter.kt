@@ -51,10 +51,11 @@ class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
         addValorEIcone(transacao, viewTransacoes)
 
         // Atribuindo valores dos campos
-        viewTransacoes.transacao_titulo.text = transacao.titulo
-        viewTransacoes.transacao_categoria.text = transacao.categoria
-        viewTransacoes.transacao_data.text = transacao.data.formataParaBR()
-
+        with (viewTransacoes) {
+            transacao_titulo.text = transacao.titulo
+            transacao_categoria.text = transacao.categoria
+            transacao_data.text = transacao.data.formataParaBR()
+        }
         return viewTransacoes
     }
 
