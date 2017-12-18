@@ -29,7 +29,7 @@ class ResumoView (private val view: View,
     fun adicionaReceitaNoResumo() {
 
         with (view.resumo_card_receita) {
-            totalReceita = resumo.receita()
+            totalReceita = resumo.receita
             text = totalReceita.formataParaBR()
             setTextColor(corReceita)
         }
@@ -38,7 +38,7 @@ class ResumoView (private val view: View,
     fun adicionarDespesaNoResumo() {
 
         with (view.resumo_card_despesa) {
-            totalDespesa = resumo.despesa()
+            totalDespesa = resumo.despesa
             text = totalDespesa.formataParaBR()
             setTextColor(corDepesa)
         }

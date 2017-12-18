@@ -1,5 +1,6 @@
 package frazao.felipe.mymoney.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.transacao_item.view.*
 /**
  * Created by felipefrazao on 14/12/2017.
  */
+
 class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
                               private val context: Context) : BaseAdapter() {
 
@@ -41,6 +43,7 @@ class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
     }
 
     // pegando a view
+    @SuppressLint("ViewHolder")
     override fun getView(posicao: Int, view: View?, parent: ViewGroup?): View {
         // passando a view que será inflada e setando a view group e a criacao da view
         val viewTransacoes : View = LayoutInflater.from(context)
