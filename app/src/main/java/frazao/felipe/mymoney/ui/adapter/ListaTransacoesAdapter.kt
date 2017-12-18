@@ -27,7 +27,7 @@ class ListaTransacoesAdapter (private val transacoes: List<Transacao>,
             icone = R.drawable.icone_transacao_item_receita
 
         } else {
-            icone = R.drawable.icone_transacao_item_receita
+            icone = R.drawable.icone_transacao_item_despesa
             cor = ContextCompat.getColor(context, R.color.despesa)
         }
 

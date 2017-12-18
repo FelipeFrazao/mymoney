@@ -5,11 +5,11 @@ import java.math.BigDecimal
 /**
  * Created by felipefrazao on 18/12/2017.
  */
-class Resumo {
+class Resumo(private val transacoes: List<Transacao>) {
     var totalReceita = BigDecimal.ZERO
     var totalDespesa = BigDecimal.ZERO
 
-    fun receita(transacoes: List<Transacao>): BigDecimal {
+    fun receita(): BigDecimal {
         for (transacao in transacoes) {
             if (transacao.tipo == Tipo.RECEITA) {
                 totalReceita = totalReceita.plus(transacao.valor)
@@ -18,7 +18,7 @@ class Resumo {
         return  totalReceita
     }
 
-    fun despesa(transacoes: List<Transacao>): BigDecimal {
+    fun despesa(): BigDecimal {
 
         for (transacao in transacoes) {
             if (transacao.tipo == Tipo.DESPESA) {
