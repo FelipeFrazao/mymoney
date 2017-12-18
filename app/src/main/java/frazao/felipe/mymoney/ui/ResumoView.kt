@@ -2,6 +2,7 @@ package frazao.felipe.mymoney.ui
 
 import android.view.View
 import frazao.felipe.mymoney.extension.formataParaBR
+import frazao.felipe.mymoney.model.Resumo
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
 import kotlinx.android.synthetic.main.resumo_card.view.*
@@ -18,24 +19,20 @@ class ResumoView (private val view: View,
     var totalDespesa = BigDecimal.ZERO
 
     fun adicionaReceitaNoResumo() {
-        for (transacao in transacoes) {
-            if (transacao.tipo == Tipo.RECEITA) {
-                totalReceita = totalReceita.plus(transacao.valor)
-            }
-        }
+
+        totalReceita = Resumo().receita(transacoes)
+
         view.resumo_card_receita.text = totalReceita.formataParaBR()
+
     }
 
     fun adicionarDespesaNoResumo() {
-        for (transacao in transacoes) {
-            if (transacao.tipo == Tipo.DESPESA) {
-                totalDespesa = totalDespesa.plus(transacao.valor)
-            }
-        }
+
+        totalDespesa = Resumo().despesa(transacoes)
         view.resumo_card_despesa.text = totalDespesa.formataParaBR()
     }
     fun totalFinancas() {
-        var total = totalReceita - totalDespesa
+        val total = Resumo().total()
         view.resumo_card_total.text = total.formataParaBR()
     }
 }
