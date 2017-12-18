@@ -2,13 +2,13 @@ package frazao.felipe.mymoney.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import frazao.felipe.mymoney.R
-import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
+import frazao.felipe.mymoney.ui.ResumoView
 import frazao.felipe.mymoney.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
-import kotlinx.android.synthetic.main.resumo_card.*
 import java.math.BigDecimal
 
 /**
@@ -38,30 +38,6 @@ class ListaTransacoesActivity : AppCompatActivity() {
                     tipo = Tipo.DESPESA
             ))
 
-
-    var totalReceita = BigDecimal.ZERO
-    var totalDespesa = BigDecimal.ZERO
-
-    private fun adicionaReceita() {
-        for (transacao in transacoesList) {
-            if (transacao.tipo == Tipo.RECEITA) {
-                totalReceita = totalReceita.plus(transacao.valor)
-            }
-        }
-        resumo_card_receita.text = totalReceita.formataParaBR()
-    }
-    private fun adicionarDespesa() {
-        for (transacao in transacoesList) {
-            if (transacao.tipo == Tipo.DESPESA) {
-                totalDespesa = totalDespesa.plus(transacao.valor)
-            }
-        }
-        resumo_card_despesa.text = totalDespesa.formataParaBR()
-    }
-    private fun totalFinancas() {
-        var total = totalReceita - totalDespesa
-        resumo_card_total.text = total.formataParaBR()
-    }
     private fun configuraLista() {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
     }
@@ -70,9 +46,11 @@ class ListaTransacoesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-        adicionaReceita()
-        adicionarDespesa()
-        totalFinancas()
+        val view: View = window.decorView
+        val resumoView = ResumoView(view, transacoesList)
+        resumoView.adicionaReceitaNoResumo()
+        resumoView.adicionarDespesaNoResumo()
+        resumoView.totalFinancas()
 
         // configurando o adapter
         configuraLista()
