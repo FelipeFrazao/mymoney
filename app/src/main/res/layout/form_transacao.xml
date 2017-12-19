@@ -13,6 +13,20 @@
         android:layout_marginTop="10dp">
 
         <EditText
+            android:id="@+id/form_transacao_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/titulo"
+            android:inputType="textAutoCorrect" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <EditText
             android:id="@+id/form_transacao_valor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

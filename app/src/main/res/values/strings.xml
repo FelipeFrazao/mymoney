@@ -5,6 +5,7 @@
     <string name="adiciona_despesa">Adiciona despesa</string>
     <string name="altera_receita">Altera receita</string>
     <string name="altera_despesa">Altera despesa</string>
+    <string name="titulo">Nome da transação</string>
     <string name="valor">Valor</string>
     <string name="data">Data</string>
     <string name="categoria">Categoria</string>
