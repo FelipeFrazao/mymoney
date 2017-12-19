@@ -97,28 +97,37 @@ class ListaTransacoesActivity : AppCompatActivity() {
                     .setView(viewCriada)
                     .setNegativeButton("Cancelar", null)
                     .setPositiveButton("Adicionar", { dialogInterface, i ->
-                        with (viewCriada) {
-                            val titulo = form_transacao_titulo.text.toString()
-                            val Valor = form_transacao_valor.text.toString()
-                            val dataTexto = form_transacao_data.text.toString()
-                            val categoria = form_transacao_categoria.selectedItem.toString()
-
-                            val simpleDateFormatBR = SimpleDateFormat("dd/MM/yyyy")
-                            val dataBr = simpleDateFormatBR.parse(dataTexto)
-                            val data = Calendar.getInstance()
-                            data.time = dataBr
-
-                            val transacao = Transacao(valor = BigDecimal(Valor), titulo = titulo, data = data, categoria = categoria, tipo = tipo)
-                            transacoesList.add(transacao)
-                            configuraLista()
-                            configuraResumo()
-                            var tipo = tipo.toString().toLowerCase()
-                            lista_transacoes_adiciona_menu.close(true)
-                            Toast.makeText(this@ListaTransacoesActivity,"A sua foi ${tipo} adicionada" ,Toast.LENGTH_LONG).show()
-                        }
+                        addTransacao(viewCriada, tipo)
                     }
                     )
                     .show()
+        }
+    }
+
+    private fun ListaTransacoesActivity.addTransacao(viewCriada: View?, tipo: Tipo) {
+        with(viewCriada) {
+            val titulo = this!!.form_transacao_titulo.text.toString()
+            val Valor = form_transacao_valor.text.toString()
+            val dataTexto = form_transacao_data.text.toString()
+            val categoria = form_transacao_categoria.selectedItem.toString()
+
+            val simpleDateFormatBR = SimpleDateFormat("dd/MM/yyyy")
+            val dataBr = simpleDateFormatBR.parse(dataTexto)
+            val data = Calendar.getInstance()
+            data.time = dataBr
+            try {
+                val transacao = Transacao(valor = BigDecimal(Valor), titulo = titulo, data = data, categoria = categoria, tipo = tipo)
+                transacoesList.add(transacao)
+                configuraLista()
+                configuraResumo()
+                var tipo = tipo.toString().toLowerCase()
+                lista_transacoes_adiciona_menu.close(true)
+                Toast.makeText(this@ListaTransacoesActivity, "A sua foi ${tipo} adicionada", Toast.LENGTH_LONG).show()
+            } catch (ex: Exception) {
+                Toast.makeText(this@ListaTransacoesActivity, "Por favor insira valores validos", Toast.LENGTH_LONG).show()
+            }
+
+
         }
     }
 
