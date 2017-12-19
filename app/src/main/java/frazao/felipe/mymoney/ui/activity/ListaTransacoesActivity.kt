@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import frazao.felipe.mymoney.R
 import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
@@ -111,7 +112,9 @@ class ListaTransacoesActivity : AppCompatActivity() {
                             transacoesList.add(transacao)
                             configuraLista()
                             configuraResumo()
+                            var tipo = tipo.toString().toLowerCase()
                             lista_transacoes_adiciona_menu.close(true)
+                            Toast.makeText(this@ListaTransacoesActivity,"A sua foi ${tipo} adicionada" ,Toast.LENGTH_LONG).show()
                         }
                     }
                     )
