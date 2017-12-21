@@ -1,8 +1,6 @@
 package frazao.felipe.mymoney.ui.activity
 
 import android.app.DatePickerDialog
-import android.app.ProgressDialog.show
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -12,12 +10,18 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import frazao.felipe.mymoney.R
+import frazao.felipe.mymoney.R.id.form_transacao_categoria
+import frazao.felipe.mymoney.R.id.form_transacao_valor
 import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
+import frazao.felipe.mymoney.mpv.MVP
+import frazao.felipe.mymoney.mpv.Model
+import frazao.felipe.mymoney.mpv.Presenter
 import frazao.felipe.mymoney.ui.ResumoView
 import frazao.felipe.mymoney.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
+import kotlinx.android.synthetic.main.form_transacao.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -27,6 +31,8 @@ import java.util.*
  * Created by felipefrazao on 13/12/2017.
  */
 class ListaTransacoesActivity : AppCompatActivity() {
+
+    private val presenter = Presenter()
 
     // Inserindo itens na lista
     var transacoesList: MutableList<Transacao> = mutableListOf(
@@ -53,6 +59,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun configuraLista() {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
+        ListaTransacoesAdapter(transacoesList, this).notifyDataSetChanged()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,43 +104,57 @@ class ListaTransacoesActivity : AppCompatActivity() {
                     .setView(viewCriada)
                     .setNegativeButton("Cancelar", null)
                     .setPositiveButton("Adicionar", { dialogInterface, i ->
-                        addTransacao(viewCriada, tipo)
+                        addtransacoes(viewCriada, tipo)
                     }
                     )
                     .show()
         }
     }
 
-    private fun ListaTransacoesActivity.addTransacao(viewCriada: View?, tipo: Tipo) {
-        with(viewCriada) {
-            val titulo = this!!.form_transacao_titulo.text.toString()
-            val Valor = form_transacao_valor.text.toString()
-            val dataTexto = form_transacao_data.text.toString()
-            val categoria = form_transacao_categoria.selectedItem.toString()
+    private fun addtransacoes(viewCriada: View?, type: Tipo) {
 
-            val simpleDateFormatBR = SimpleDateFormat("dd/MM/yyyy")
-            val dataBr = simpleDateFormatBR.parse(dataTexto)
-            val data = Calendar.getInstance()
-            data.time = dataBr
+        with(viewCriada) {
             try {
-                val transacao = Transacao(valor = BigDecimal(Valor), titulo = titulo, data = data, categoria = categoria, tipo = tipo)
-                transacoesList.add(transacao)
+                var tipo = type.toString().toLowerCase()
+
+                presenter.addTransact(this@ListaTransacoesActivity, viewCriada, type, transacoesList)
+                lista_transacoes_adiciona_menu.close(true)
                 configuraLista()
                 configuraResumo()
-                var tipo = tipo.toString().toLowerCase()
-                lista_transacoes_adiciona_menu.close(true)
                 Toast.makeText(this@ListaTransacoesActivity, "A sua foi ${tipo} adicionada", Toast.LENGTH_LONG).show()
             } catch (ex: Exception) {
                 Toast.makeText(this@ListaTransacoesActivity, "Por favor insira valores validos", Toast.LENGTH_LONG).show()
             }
-
-
         }
     }
+//    private fun ListaTransacoesActivity.addTransacao(viewCriada: View?, tipo: Tipo) {
+//        with(viewCriada) {
+//            val titulo = this!!.form_transacao_titulo.text.toString()
+//            val Valor = form_transacao_valor.text.toString()
+//            val dataTexto = form_transacao_data.text.toString()
+//            val categoria = form_transacao_categoria.selectedItem.toString()
+//
+//            val simpleDateFormatBR = SimpleDateFormat("dd/MM/yyyy")
+//            val dataBr = simpleDateFormatBR.parse(dataTexto)
+//            val data = Calendar.getInstance()
+//            data.time = dataBr
+//            try {
+//                val transacao = Transacao(valor = BigDecimal(Valor), titulo = titulo, data = data, categoria = categoria, tipo = tipo)
+//                transacoesList.add(transacao)
+//                configuraLista()
+//                configuraResumo()
+//                var tipo = tipo.toString().toLowerCase()
+//                lista_transacoes_adiciona_menu.close(true)
+//                Toast.makeText(this@ListaTransacoesActivity, "A sua foi ${tipo} adicionada", Toast.LENGTH_LONG).show()
+//            } catch (ex: Exception) {
+//                Toast.makeText(this@ListaTransacoesActivity, "Por favor insira valores validos", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
 
     private fun configuraResumo() {
         val view: View = window.decorView
-        val resumoView = ResumoView(view, transacoesList, this@ListaTransacoesActivity)
+        val resumoView = ResumoView(view, transacoesList, this)
         resumoView.atualiza()
     }
 }
