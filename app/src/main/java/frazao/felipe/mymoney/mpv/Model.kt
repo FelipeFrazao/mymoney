@@ -2,11 +2,8 @@ package frazao.felipe.mymoney.mpv
 
 import android.content.Context
 import android.view.View
-import android.widget.Toast
-import frazao.felipe.mymoney.R.id.lista_transacoes_adiciona_menu
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
-import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
