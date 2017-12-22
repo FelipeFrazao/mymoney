@@ -66,6 +66,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
             abreDialog(R.string.adiciona_receita, R.array.categorias_de_receita, Tipo.RECEITA)
         }
         lista_transacoes_adiciona_despesa.setOnClickListener {
+
             abreDialog(R.string.adiciona_despesa, R.array.categorias_de_despesa, Tipo.DESPESA)
         }
     }
@@ -73,7 +74,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     private fun abreDialog(title: Int, category: Int, tipo: Tipo) {
         val viewDecorada: View = window.decorView
         val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
-        view.abreDialog(viewCriada, this)
+        view.abreDialog(viewCriada, this, title, tipo)
 
         with (viewCriada) {
 
@@ -81,19 +82,10 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
             form_transacao_categoria.adapter = adapter
 
-            AlertDialog.Builder(this@ListaTransacoesActivity)
-                    .setTitle(title)
-                    .setView(viewCriada)
-                    .setNegativeButton("Cancelar", null)
-                    .setPositiveButton("Adicionar", { dialogInterface, i ->
-                        addtransacoes(viewCriada, tipo)
-                    }
-                    )
-                    .show()
         }
     }
 
-    private fun addtransacoes(viewCriada: View?, type: Tipo) {
+    fun addtransacoes(viewCriada: View?, type: Tipo) {
 
         with(viewCriada) {
             try {
