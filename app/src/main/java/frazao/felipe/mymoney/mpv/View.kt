@@ -21,7 +21,6 @@ class View {
 
         with(view) {
             configuraData(context)
-
         }
     }
     fun alteraDialog(view: View, context: Context) {

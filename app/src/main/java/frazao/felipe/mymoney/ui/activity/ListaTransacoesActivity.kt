@@ -26,6 +26,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private val presenter = Presenter()
     private val viewC = View()
+    private var viewDecorada: View? = null
 
     // Inserindo itens na lista
     var transacoesList: MutableList<Transacao> = mutableListOf(
@@ -50,24 +51,16 @@ class ListaTransacoesActivity : AppCompatActivity() {
             )
     ).toMutableList()
 
-    private fun configuraLista() {
-        lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
-        ListaTransacoesAdapter(transacoesList, this).notifyDataSetChanged()
-        lista_transacoes_listview.setOnItemClickListener { parent, view, position, id ->
-            val transacao = transacoesList[position]
-            alteraDialog(transacao)
-
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
+        viewDecorada = window.decorView
         configuraResumo()
         // configurando o adapter
         configuraLista()
 
+        // Chamando o dialog passando os parametros para abrir uma despesa ou receita
         lista_transacoes_adiciona_receita.setOnClickListener {
             abreDialog(R.string.adiciona_receita, R.array.categorias_de_receita, Tipo.RECEITA)
         }
@@ -77,8 +70,24 @@ class ListaTransacoesActivity : AppCompatActivity() {
         }
     }
 
+    // Configraundo o listview para apresentar os dados na tela
+    private fun configuraLista() {
+
+        with(lista_transacoes_listview) {
+            adapter = ListaTransacoesAdapter(transacoesList, this@ListaTransacoesActivity)
+
+            ListaTransacoesAdapter(transacoesList, this@ListaTransacoesActivity).notifyDataSetChanged()
+
+            setOnItemClickListener { parent, view, position, id ->
+                val transacao = transacoesList[position]
+                alteraDialog(transacao)
+
+            }
+        }
+    }
+
     private fun abreDialog(title: Int, category: Int, tipo: Tipo) {
-        val viewDecorada: View = window.decorView
+
         val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
         viewC.abreDialog(viewCriada, this)
 
@@ -99,59 +108,78 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
         }
     }
+
+    // Dialog de alteracao de transacao
     fun alteraDialog(transacao: Transacao) {
 
-        val viewDecorada: View = window.decorView
-        val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
         val tipo = transacao.tipo
         val categoriasReturn = this.resources.getStringArray(viewC.categoriasPor(tipo))
         val posicaoCategoria = categoriasReturn.indexOf(transacao.categoria)
 
+        val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
         viewC.alteraDialog(viewCriada, this)
 
+        //Utilizando a propria view
         with(viewCriada) {
-            val adapter = ArrayAdapter.createFromResource(context,
-                    viewC.categoriasPor(tipo),
-                    android.R.layout.simple_spinner_dropdown_item)
-            form_transacao_titulo.setText(transacao.titulo)
-            form_transacao_valor.setText(transacao.valor.toString())
-            form_transacao_data.setText(transacao.data.formataParaBR())
 
-            form_transacao_categoria.adapter = adapter
-            form_transacao_categoria.setSelection(posicaoCategoria, true)
+                // Configurando campos do dialog
+                val adapter = ArrayAdapter.createFromResource(context, viewC.categoriasPor(tipo), android.R.layout.simple_spinner_dropdown_item)
+                form_transacao_titulo.setText(transacao.titulo)
+                form_transacao_valor.setText(transacao.valor.toString())
+                form_transacao_data.setText(transacao.data.formataParaBR())
 
-            AlertDialog.Builder(context)
-                    .setTitle(transacao.titulo)
-                    .setView(viewCriada)
-                    .setNegativeButton("Cancelar", null)
-                    .show()
+                form_transacao_categoria.adapter = adapter
+                form_transacao_categoria.setSelection(posicaoCategoria, true)
 
+                // Construindo o dialog com seus parametros e funcoes
+                AlertDialog.Builder(context)
+                        .setTitle(transacao.titulo)
+                        .setView(viewCriada)
+                        .setNegativeButton("Cancelar", null)
+                        .setPositiveButton("Alterar",{ dialogInterface, i ->
+                            updateTransacao(viewCriada, transacao, transacoesList)
+                        })
+                        .show()
+        }
+    }
+    fun updateTransacao(view: View, transacao: Transacao, transacoesList: MutableList<Transacao>) {
+        try {
+
+            presenter.updateTransacao(view, transacao, transacoesList)
+
+            configuraLista()
+            configuraResumo()
+
+            // Feedback ao usuario
+            Toast.makeText(this@ListaTransacoesActivity, "A sua foi ${transacao.tipo.toString().toLowerCase()} alterada", Toast.LENGTH_LONG).show()
+        } catch (ex: Exception) {
+            Toast.makeText(this@ListaTransacoesActivity, "Por favor insira valores validos", Toast.LENGTH_LONG).show()
         }
     }
 
-    fun addtransacoes(viewCriada: View?, type: Tipo) {
+    fun addtransacoes (viewCriada: View?, type: Tipo) {
 
         with(viewCriada) {
             try {
                 var tipo = type.toString().toLowerCase()
 
-                presenter.addTransact(this@ListaTransacoesActivity, viewCriada, type, transacoesList)
+                presenter.addTransact(viewCriada, type, transacoesList)
                 lista_transacoes_adiciona_menu.close(true)
                 configuraLista()
                 configuraResumo()
+
+                // Feedback ao usuario
                 Toast.makeText(this@ListaTransacoesActivity, "A sua foi ${tipo} adicionada", Toast.LENGTH_LONG).show()
             } catch (ex: Exception) {
                 Toast.makeText(this@ListaTransacoesActivity, "Por favor insira valores validos", Toast.LENGTH_LONG).show()
             }
         }
     }
-    fun alteraTransacao (viewCriada: View?, transacao: Transacao) {
-        presenter.updateTransacao(viewCriada, transacao)
-    }
 
     private fun configuraResumo() {
-        val view: View = window.decorView
-        val resumoView = ResumoView(view, transacoesList, this)
+        // Configurando e atualizando o resumoview a cada transacao alterada ou adicionada
+
+        val resumoView = ResumoView(viewDecorada, transacoesList, this)
         resumoView.atualiza()
     }
 }
