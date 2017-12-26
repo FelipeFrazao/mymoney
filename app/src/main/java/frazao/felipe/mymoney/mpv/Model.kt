@@ -39,4 +39,9 @@ class Model(private var Presenter: Presenter) {
 
         }
     }
+    fun updateTransacao(viewCriada: View?, transacao: Transacao) {
+        with(viewCriada) {
+
+        }
+    }
 }

@@ -14,6 +14,10 @@ public class Presenter {
     fun addTransact(context: Context, viewCriada: View?, tipo: Tipo, transacaoList: MutableList<Transacao>) {
         model.addTransacao(context, viewCriada, tipo, transacaoList)
     }
+    fun updateTransacao(viewCriada: View?,
+                        transacao: Transacao) {
+        model.updateTransacao(viewCriada, transacao)
+    }
 
     init {
         model = Model(this)

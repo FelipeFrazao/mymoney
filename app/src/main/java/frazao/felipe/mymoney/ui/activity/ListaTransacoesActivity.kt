@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import frazao.felipe.mymoney.R
+import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
 import frazao.felipe.mymoney.mpv.*
@@ -24,7 +25,7 @@ import java.math.BigDecimal
 class ListaTransacoesActivity : AppCompatActivity() {
 
     private val presenter = Presenter()
-    private val view = View()
+    private val viewC = View()
 
     // Inserindo itens na lista
     var transacoesList: MutableList<Transacao> = mutableListOf(
@@ -52,6 +53,11 @@ class ListaTransacoesActivity : AppCompatActivity() {
     private fun configuraLista() {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoesList, this)
         ListaTransacoesAdapter(transacoesList, this).notifyDataSetChanged()
+        lista_transacoes_listview.setOnItemClickListener { parent, view, position, id ->
+            val transacao = transacoesList[position]
+            alteraDialog(transacao)
+
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,13 +80,51 @@ class ListaTransacoesActivity : AppCompatActivity() {
     private fun abreDialog(title: Int, category: Int, tipo: Tipo) {
         val viewDecorada: View = window.decorView
         val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
-        view.abreDialog(viewCriada, this, title, tipo)
+        viewC.abreDialog(viewCriada, this)
 
         with (viewCriada) {
 
             val adapter = ArrayAdapter.createFromResource(this@ListaTransacoesActivity, category, android.R.layout.simple_spinner_dropdown_item)
+            AlertDialog.Builder(context)
+                    .setTitle(title)
+                    .setView(viewCriada)
+                    .setNegativeButton("Cancelar", null)
+                    .setPositiveButton("Adicionar", { dialogInterface, i ->
+                        addtransacoes(viewCriada, tipo)
+                    }
+                    )
+                    .show()
 
             form_transacao_categoria.adapter = adapter
+
+        }
+    }
+    fun alteraDialog(transacao: Transacao) {
+
+        val viewDecorada: View = window.decorView
+        val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
+        val tipo = transacao.tipo
+        val categoriasReturn = this.resources.getStringArray(viewC.categoriasPor(tipo))
+        val posicaoCategoria = categoriasReturn.indexOf(transacao.categoria)
+
+        viewC.alteraDialog(viewCriada, this)
+
+        with(viewCriada) {
+            val adapter = ArrayAdapter.createFromResource(context,
+                    viewC.categoriasPor(tipo),
+                    android.R.layout.simple_spinner_dropdown_item)
+            form_transacao_titulo.setText(transacao.titulo)
+            form_transacao_valor.setText(transacao.valor.toString())
+            form_transacao_data.setText(transacao.data.formataParaBR())
+
+            form_transacao_categoria.adapter = adapter
+            form_transacao_categoria.setSelection(posicaoCategoria, true)
+
+            AlertDialog.Builder(context)
+                    .setTitle(transacao.titulo)
+                    .setView(viewCriada)
+                    .setNegativeButton("Cancelar", null)
+                    .show()
 
         }
     }
@@ -100,6 +144,9 @@ class ListaTransacoesActivity : AppCompatActivity() {
                 Toast.makeText(this@ListaTransacoesActivity, "Por favor insira valores validos", Toast.LENGTH_LONG).show()
             }
         }
+    }
+    fun alteraTransacao (viewCriada: View?, transacao: Transacao) {
+        presenter.updateTransacao(viewCriada, transacao)
     }
 
     private fun configuraResumo() {
