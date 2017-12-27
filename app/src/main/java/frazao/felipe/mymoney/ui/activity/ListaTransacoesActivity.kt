@@ -108,9 +108,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
                     }
                     )
                     .show()
-
             form_transacao_categoria.adapter = adapter
-
         }
     }
 
@@ -127,14 +125,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         //Utilizando a propria view
         with(viewCriada) {
 
-                // Configurando campos do dialog
-                val adapter = ArrayAdapter.createFromResource(context, viewC.categoriasPor(tipo), android.R.layout.simple_spinner_dropdown_item)
-                form_transacao_titulo.setText(transacao.titulo)
-                form_transacao_valor.setText(transacao.valor.toString())
-                form_transacao_data.setText(transacao.data.formataParaBR())
-
-                form_transacao_categoria.adapter = adapter
-                form_transacao_categoria.setSelection(posicaoCategoria, true)
+                configuraCamposDialog(tipo, transacao, posicaoCategoria)
 
                 // Construindo o dialog com seus parametros e funcoes
                 AlertDialog.Builder(context)
@@ -147,6 +138,18 @@ class ListaTransacoesActivity : AppCompatActivity() {
                         .show()
         }
     }
+
+    private fun View.configuraCamposDialog(tipo: Tipo, transacao: Transacao, posicaoCategoria: Int) {
+        // Configurando campos do dialog
+        val adapter = ArrayAdapter.createFromResource(context, viewC.categoriasPor(tipo), android.R.layout.simple_spinner_dropdown_item)
+        form_transacao_titulo.setText(transacao.titulo)
+        form_transacao_valor.setText(transacao.valor.toString())
+        form_transacao_data.setText(transacao.data.formataParaBR())
+
+        form_transacao_categoria.adapter = adapter
+        form_transacao_categoria.setSelection(posicaoCategoria, true)
+    }
+
     fun updateTransacao(view: View, transacao: Transacao, transacoesList: MutableList<Transacao>) {
         try {
 
