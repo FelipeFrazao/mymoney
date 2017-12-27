@@ -11,7 +11,7 @@ import java.util.*
 /**
  * Created by felipefrazao on 21/12/2017.
  */
-public class Presenter {
+class Presenter {
     var model: Model
 
     fun addTransact(viewCriada: View?, tipo: Tipo, transacaoList: MutableList<Transacao>) {

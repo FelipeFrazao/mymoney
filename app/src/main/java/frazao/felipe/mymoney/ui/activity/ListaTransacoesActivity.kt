@@ -3,9 +3,8 @@ package frazao.felipe.mymoney.ui.activity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
+import android.view.*
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import frazao.felipe.mymoney.R
@@ -25,7 +24,7 @@ import java.math.BigDecimal
 class ListaTransacoesActivity : AppCompatActivity() {
 
     private val presenter = Presenter()
-    private val viewC = View()
+    private val viewC = frazao.felipe.mymoney.mpv.View()
     private val viewdaActivity by lazy {
         window.decorView
     }
@@ -86,9 +85,19 @@ class ListaTransacoesActivity : AppCompatActivity() {
             setOnItemClickListener { parent, view, position, id ->
                 val transacao = transacoesList[position]
                 alteraDialog(transacao)
-
+            }
+            setOnCreateContextMenuListener { menu, view, menuInfo ->
+                menu.add(Menu.NONE, 1, Menu.NONE, "Remover transação")
             }
         }
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        val idDoMenu = item?.itemId
+        if (idDoMenu == 1) {
+            Toast.makeText(this, "Menu remover foi tocado", Toast.LENGTH_LONG).show()
+        }
+        return super.onContextItemSelected(item)
     }
 
     private fun abreDialog(title: Int, category: Int, tipo: Tipo) {
