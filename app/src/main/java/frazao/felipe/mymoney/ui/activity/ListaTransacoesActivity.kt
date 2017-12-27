@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import frazao.felipe.mymoney.R
@@ -22,16 +23,6 @@ import java.math.BigDecimal
  * Created by felipefrazao on 13/12/2017.
  */
 class ListaTransacoesActivity : AppCompatActivity() {
-
-    private val presenter = Presenter()
-    private val viewC = frazao.felipe.mymoney.mpv.View()
-    private val viewdaActivity by lazy {
-        window.decorView
-    }
-
-    private val viewGroupdaActivity by lazy {
-        viewdaActivity as ViewGroup
-    }
 
     // Inserindo itens na lista
     var transacoesList: MutableList<Transacao> = mutableListOf(
@@ -55,6 +46,15 @@ class ListaTransacoesActivity : AppCompatActivity() {
                     tipo = Tipo.DESPESA
             )
     ).toMutableList()
+    private val presenter = Presenter(transacoesList)
+    private val viewC = frazao.felipe.mymoney.mpv.View(transacoesList)
+    private val viewdaActivity by lazy {
+        window.decorView
+    }
+
+    private val viewGroupdaActivity by lazy {
+        viewdaActivity as ViewGroup
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,8 +95,12 @@ class ListaTransacoesActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem?): Boolean {
         val idDoMenu = item?.itemId
         if (idDoMenu == 1) {
-            Toast.makeText(this, "Menu remover foi tocado", Toast.LENGTH_LONG).show()
-        }
+            val adapterMenuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
+            val posicaoDaTransacao = adapterMenuInfo.position
+            presenter.removeTransacao(posicaoDaTransacao)
+
+            configuraLista()
+            configuraResumo()        }
         return super.onContextItemSelected(item)
     }
 

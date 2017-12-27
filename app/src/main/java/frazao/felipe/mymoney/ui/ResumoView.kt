@@ -15,7 +15,7 @@ import java.math.BigDecimal
  */
 
 class ResumoView (private val view: View,
-                  transacoes: List<Transacao>,
+                  transacoes: MutableList<Transacao>,
                   private val context: Context) {
 
     var totalReceita = BigDecimal.ZERO

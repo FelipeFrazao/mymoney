@@ -6,15 +6,17 @@ import android.view.View
 import frazao.felipe.mymoney.R
 import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
+import frazao.felipe.mymoney.model.Transacao
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.util.*
 
 /**
  * Created by felipefrazao on 22/12/2017.
  */
-class View {
+class View(transacoesList: MutableList<Transacao>) {
 
-    val presenter : Presenter = Presenter()
+    private  val transacaoList: MutableList<Transacao> = transacoesList
+    val presenter : Presenter = Presenter(transacaoList)
 
     fun abreDialog(view: View, context: Context) {
 

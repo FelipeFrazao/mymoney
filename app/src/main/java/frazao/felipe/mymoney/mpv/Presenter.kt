@@ -11,8 +11,9 @@ import java.util.*
 /**
  * Created by felipefrazao on 21/12/2017.
  */
-class Presenter {
+class Presenter (transacaoList: MutableList<Transacao>) {
     var model: Model
+    private val transacoesList = transacaoList
 
     fun addTransact(viewCriada: View?, tipo: Tipo, transacaoList: MutableList<Transacao>) {
 
@@ -51,8 +52,12 @@ class Presenter {
         }
     }
 
+    fun removeTransacao(posicao: Int) {
+        model.removeTransacao(posicao)
+    }
+
     init {
-        model = Model()
+        model = Model(transacoesList)
     }
 
 }
