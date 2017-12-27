@@ -26,7 +26,13 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private val presenter = Presenter()
     private val viewC = View()
-    private var viewDecorada: View? = null
+    private val viewdaActivity by lazy {
+        window.decorView
+    }
+
+    private val viewGroupdaActivity by lazy {
+        viewdaActivity as ViewGroup
+    }
 
     // Inserindo itens na lista
     var transacoesList: MutableList<Transacao> = mutableListOf(
@@ -55,7 +61,6 @@ class ListaTransacoesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-        viewDecorada = window.decorView
         configuraResumo()
         // configurando o adapter
         configuraLista()
@@ -88,7 +93,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun abreDialog(title: Int, category: Int, tipo: Tipo) {
 
-        val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
+        val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewGroupdaActivity, false)
         viewC.abreDialog(viewCriada, this)
 
         with (viewCriada) {
@@ -116,7 +121,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         val categoriasReturn = this.resources.getStringArray(viewC.categoriasPor(tipo))
         val posicaoCategoria = categoriasReturn.indexOf(transacao.categoria)
 
-        val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewDecorada as ViewGroup, false)
+        val viewCriada = LayoutInflater.from(this).inflate(R.layout.form_transacao, viewGroupdaActivity, false)
         viewC.alteraDialog(viewCriada, this)
 
         //Utilizando a propria view
@@ -179,7 +184,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     private fun configuraResumo() {
         // Configurando e atualizando o resumoview a cada transacao alterada ou adicionada
 
-        val resumoView = ResumoView(viewDecorada, transacoesList, this)
+        val resumoView = ResumoView(viewGroupdaActivity, transacoesList, this)
         resumoView.atualiza()
     }
 }

@@ -14,7 +14,7 @@ import java.math.BigDecimal
  * Created by felipefrazao on 18/12/2017.
  */
 
-class ResumoView (private val view: View?,
+class ResumoView (private val view: View,
                   transacoes: List<Transacao>,
                   private val context: Context) {
 
@@ -28,25 +28,22 @@ class ResumoView (private val view: View?,
 
     fun adicionaReceitaNoResumo() {
 
-        view?.let {
-            with (view.resumo_card_receita) {
-                totalReceita = resumo.receita
-                text = totalReceita.formataParaBR()
-                setTextColor(corReceita)
-            }
+        with (view.resumo_card_receita) {
+            totalReceita = resumo.receita
+            text = totalReceita.formataParaBR()
+            setTextColor(corReceita)
         }
     }
 
     fun adicionarDespesaNoResumo() {
 
-        view?.let {
-            with (view.resumo_card_despesa) {
-                totalDespesa = resumo.despesa
-                text = totalDespesa.formataParaBR()
-                setTextColor(corDepesa)
-            }
+        with (view.resumo_card_despesa) {
+            totalDespesa = resumo.despesa
+            text = totalDespesa.formataParaBR()
+            setTextColor(corDepesa)
         }
     }
+
     fun totalFinancas() {
         val total = resumo.total()
 
@@ -57,11 +54,10 @@ class ResumoView (private val view: View?,
                 corTotal = ContextCompat.getColor(context, R.color.neutra)
             }
         }
-        view?.let {
-            with (view.resumo_card_total) {
-                setTextColor(corTotal)
-                text = total.formataParaBR()
-            } }
+        with (view.resumo_card_total) {
+            setTextColor(corTotal)
+            text = total.formataParaBR()
+        }
     }
 
     fun atualiza () {
