@@ -6,7 +6,6 @@ import android.view.View
 import frazao.felipe.mymoney.R
 import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
-import frazao.felipe.mymoney.model.Transacao
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.util.*
 
@@ -14,8 +13,6 @@ import java.util.*
  * Created by felipefrazao on 22/12/2017.
  */
 class View {
-
-    val presenter : Presenter = Presenter()
 
     fun abreDialog(view: View, context: Context) {
 

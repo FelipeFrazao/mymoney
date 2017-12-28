@@ -9,41 +9,46 @@ import java.math.BigDecimal
  */
 class TransacaoDAO {
 
-    // Inserindo itens na lista
-    var transacoesList: MutableList<Transacao> = mutableListOf(
-            Transacao(titulo = "Fone Xiaomi",
-                    valor =  BigDecimal(73.5),
-                    categoria = "Compra",
-                    tipo = Tipo.DESPESA
-            ),
-            Transacao("CMS do Danilo",
-                    BigDecimal(800.00),
-                    Tipo.RECEITA,
-                    "Pagamento"
-            ),
-            Transacao("Holly Chuck Burger",
-                    BigDecimal(130.00),
-                    Tipo.DESPESA,
-                    "Comida"
-            ),
-            Transacao(titulo = "Celular",
-                    valor = BigDecimal(550.00),
-                    tipo = Tipo.DESPESA
-            )
-    ).toMutableList()
+
+    val transacoesList: List<Transacao> = Companion.transacoesList
+
+    // Lista de transacoes
+    companion object {
+        private val transacoesList: MutableList<Transacao> = mutableListOf(
+                Transacao(titulo = "Fone Xiaomi",
+                        valor =  BigDecimal(73.5),
+                        categoria = "Compra",
+                        tipo = Tipo.DESPESA
+                ),
+                Transacao("CMS do Danilo",
+                        BigDecimal(800.00),
+                        Tipo.RECEITA,
+                        "Pagamento"
+                ),
+                Transacao("Holly Chuck Burger",
+                        BigDecimal(130.00),
+                        Tipo.DESPESA,
+                        "Comida"
+                ),
+                Transacao(titulo = "Celular",
+                        valor = BigDecimal(550.00),
+                        tipo = Tipo.DESPESA
+                )
+        ).toMutableList()
+    }
 
     fun addTransacao (transacao: Transacao) {
 
-        transacoesList.add(transacao)
+        Companion.transacoesList.add(transacao)
     }
 
     fun updateTransacao (transacao: Transacao, indexOf: Int) {
 
-        transacoesList.set(indexOf, transacao)
+        Companion.transacoesList.set(indexOf, transacao)
     }
 
     fun removeTransacao (indexOf: Int) {
 
-        transacoesList.removeAt(indexOf)
+        Companion.transacoesList.removeAt(indexOf)
     }
 }

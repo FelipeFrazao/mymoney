@@ -11,7 +11,7 @@ import java.util.*
 /**
  * Created by felipefrazao on 21/12/2017.
  */
-class Presenter () {
+class Presenter {
     var transacaoDAO: TransacaoDAO
     init {
         transacaoDAO = TransacaoDAO()
