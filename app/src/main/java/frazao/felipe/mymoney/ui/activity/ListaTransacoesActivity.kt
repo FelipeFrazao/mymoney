@@ -7,6 +7,7 @@ import android.view.*
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.Toast
 import frazao.felipe.mymoney.R
 import frazao.felipe.mymoney.extension.formataParaBR
@@ -17,7 +18,6 @@ import frazao.felipe.mymoney.ui.ResumoView
 import frazao.felipe.mymoney.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
-import java.math.BigDecimal
 
 /**
  * Created by felipefrazao on 13/12/2017.
@@ -25,29 +25,9 @@ import java.math.BigDecimal
 class ListaTransacoesActivity : AppCompatActivity() {
 
     // Inserindo itens na lista
-    var transacoesList: MutableList<Transacao> = mutableListOf(
-            Transacao(titulo = "Fone Xiaomi",
-                    valor =  BigDecimal(73.5),
-                    categoria = "Compra",
-                    tipo = Tipo.DESPESA
-            ),
-            Transacao("CMS do Danilo",
-                    BigDecimal(800.00),
-                    Tipo.RECEITA,
-                    "Pagamento"
-            ),
-            Transacao("Holly Chuck Burger",
-                    BigDecimal(130.00),
-                    Tipo.DESPESA,
-                    "Comida"
-            ),
-            Transacao(titulo = "Celular",
-                    valor = BigDecimal(550.00),
-                    tipo = Tipo.DESPESA
-            )
-    ).toMutableList()
-    private val presenter = Presenter(transacoesList)
-    private val viewC = frazao.felipe.mymoney.mpv.View(transacoesList)
+    private val presenter = Presenter()
+    var transacoesList: MutableList<Transacao> = presenter.transacoes
+    private val viewC = frazao.felipe.mymoney.mpv.View()
     private val viewdaActivity by lazy {
         window.decorView
     }
@@ -75,13 +55,19 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     // Configraundo o listview para apresentar os dados na tela
-    private fun configuraLista() {
+    fun configuraLista() {
 
         with(lista_transacoes_listview) {
             adapter = ListaTransacoesAdapter(transacoesList, this@ListaTransacoesActivity)
 
             ListaTransacoesAdapter(transacoesList, this@ListaTransacoesActivity).notifyDataSetChanged()
 
+            contextMenuRemove()
+        }
+    }
+
+    private fun contextMenuRemove() {
+        with (lista_transacoes_listview) {
             setOnItemClickListener { parent, view, position, id ->
                 val transacao = transacoesList[position]
                 alteraDialog(transacao)
@@ -100,7 +86,8 @@ class ListaTransacoesActivity : AppCompatActivity() {
             presenter.removeTransacao(posicaoDaTransacao)
 
             configuraLista()
-            configuraResumo()        }
+            configuraResumo()
+        }
         return super.onContextItemSelected(item)
     }
 
@@ -184,7 +171,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
             try {
                 var tipo = type.toString().toLowerCase()
 
-                presenter.addTransact(viewCriada, type, transacoesList)
+                presenter.addTransact(viewCriada, type)
                 lista_transacoes_adiciona_menu.close(true)
                 configuraLista()
                 configuraResumo()

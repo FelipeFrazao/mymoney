@@ -13,10 +13,9 @@ import java.util.*
 /**
  * Created by felipefrazao on 22/12/2017.
  */
-class View(transacoesList: MutableList<Transacao>) {
+class View {
 
-    private  val transacaoList: MutableList<Transacao> = transacoesList
-    val presenter : Presenter = Presenter(transacaoList)
+    val presenter : Presenter = Presenter()
 
     fun abreDialog(view: View, context: Context) {
 

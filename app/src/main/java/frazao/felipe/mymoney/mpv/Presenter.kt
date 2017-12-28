@@ -11,11 +11,14 @@ import java.util.*
 /**
  * Created by felipefrazao on 21/12/2017.
  */
-class Presenter (transacaoList: MutableList<Transacao>) {
-    var model: Model
-    private val transacoesList = transacaoList
+class Presenter () {
+    var transacaoDAO: TransacaoDAO
+    init {
+        transacaoDAO = TransacaoDAO()
+    }
+    val transacoes = transacaoDAO.transacoesList
 
-    fun addTransact(viewCriada: View?, tipo: Tipo, transacaoList: MutableList<Transacao>) {
+    fun addTransact(viewCriada: View?, tipo: Tipo) {
 
         with(viewCriada) {
             val titulo = this!!.form_transacao_titulo.text.toString()
@@ -29,7 +32,7 @@ class Presenter (transacaoList: MutableList<Transacao>) {
             data.time = dataBr
             val transact = Transacao(valor = BigDecimal(Valor), titulo = titulo, data = data, categoria = categoria, tipo = tipo)
 
-            model.addTransacao(transact, transacaoList)
+            transacaoDAO.addTransacao(transact)
         }
     }
     fun updateTransacao(viewCriada: View?,
@@ -48,16 +51,11 @@ class Presenter (transacaoList: MutableList<Transacao>) {
             data.time = dataBr
             val transact = Transacao(valor = BigDecimal(Valor), titulo = titulo, data = data, categoria = categoria, tipo = transacao.tipo)
 
-            model.updateTransacao(transact, transacaoList, posicao)
+            transacaoDAO.updateTransacao(transact, posicao)
         }
     }
 
     fun removeTransacao(posicao: Int) {
-        model.removeTransacao(posicao)
+        transacaoDAO.removeTransacao(posicao)
     }
-
-    init {
-        model = Model(transacoesList)
-    }
-
 }
