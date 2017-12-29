@@ -36,7 +36,7 @@ class Presenter {
         }
     }
     fun updateTransacao(viewCriada: View?,
-                        transacao: Transacao,  transacaoList: MutableList<Transacao>) {
+                        transacao: Transacao,  transacaoList: List<Transacao>) {
         with (viewCriada) {
             // Atrbiui os valores para enviar ao update
             val posicao = transacaoList.indexOf(transacao)

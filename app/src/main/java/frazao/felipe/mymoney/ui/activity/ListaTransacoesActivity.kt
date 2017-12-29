@@ -7,17 +7,20 @@ import android.view.*
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import android.widget.Toast
 import frazao.felipe.mymoney.R
 import frazao.felipe.mymoney.extension.formataParaBR
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
 import frazao.felipe.mymoney.mpv.*
+import frazao.felipe.mymoney.services.RetrofitInitializer
 import frazao.felipe.mymoney.ui.ResumoView
 import frazao.felipe.mymoney.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
 /**
  * Created by felipefrazao on 13/12/2017.
@@ -26,7 +29,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     // Inserindo itens na lista
     private val presenter = Presenter()
-    var transacoesList: MutableList<Transacao> = presenter.transacoes
+    var transacoesList: List<Transacao> = presenter.transacoes
     private val viewC = frazao.felipe.mymoney.mpv.View()
     private val viewdaActivity by lazy {
         window.decorView
@@ -43,6 +46,10 @@ class ListaTransacoesActivity : AppCompatActivity() {
         configuraResumo()
         // configurando o adapter
         configuraLista()
+
+        val call = RetrofitInitializer().transacaoService().list()
+
+
 
         // Chamando o dialog passando os parametros para abrir uma despesa ou receita
         lista_transacoes_adiciona_receita.setOnClickListener {
@@ -150,7 +157,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         form_transacao_categoria.setSelection(posicaoCategoria, true)
     }
 
-    fun updateTransacao(view: View, transacao: Transacao, transacoesList: MutableList<Transacao>) {
+    fun updateTransacao(view: View, transacao: Transacao, transacoesList: List<Transacao>) {
         try {
 
             presenter.updateTransacao(view, transacao, transacoesList)
