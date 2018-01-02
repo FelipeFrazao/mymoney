@@ -1,7 +1,12 @@
 package frazao.felipe.mymoney.mpv
 
+import android.util.Log
 import frazao.felipe.mymoney.model.Tipo
 import frazao.felipe.mymoney.model.Transacao
+import frazao.felipe.mymoney.services.RetrofitInitializer
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.math.BigDecimal
 
 /**
@@ -10,7 +15,7 @@ import java.math.BigDecimal
 class TransacaoDAO {
 
 
-    val transacoesList: List<Transacao> = Companion.transacoesList
+    var transacoesList: List<Transacao> = Companion.transacoesList
 
     // Lista de transacoes
     companion object {
@@ -29,14 +34,29 @@ class TransacaoDAO {
                         BigDecimal(130.00),
                         Tipo.DESPESA,
                         "Comida"
-                ),
-                Transacao(titulo = "Celular",
-                        valor = BigDecimal(550.00),
-                        tipo = Tipo.DESPESA
                 )
         ).toMutableList()
     }
 
+    fun getTransacoes() {
+        val call = RetrofitInitializer().transacaoService.listTransacoes()
+
+
+        call.enqueue(object : Callback<List<Transacao>> {
+            override fun onResponse(call: Call<List<Transacao>>?, response: Response<List<Transacao>>?) {
+                response?.let {
+                    transacoesList = it.body()!!
+                    Log.e("DEUCERTO", "Tamanho ${transacoesList.size}")
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<Transacao>>?, t: Throwable?) {
+                Log.e("Faiô", t?.message)
+            }
+
+        } )
+    }
     fun addTransacao (transacao: Transacao) {
 
         Companion.transacoesList.add(transacao)

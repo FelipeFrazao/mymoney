@@ -9,5 +9,5 @@ import retrofit2.http.GET
  */
 interface TransacaoService {
     @GET("transacoes")
-    fun list() : Call<List<Transacao>>
+    fun listTransacoes() : Call<List<Transacao>>
 }

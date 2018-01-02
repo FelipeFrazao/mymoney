@@ -3,6 +3,7 @@ package frazao.felipe.mymoney.ui.activity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.*
 import android.view.View
 import android.widget.AdapterView
@@ -19,8 +20,8 @@ import frazao.felipe.mymoney.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 /**
  * Created by felipefrazao on 13/12/2017.
@@ -43,13 +44,28 @@ class ListaTransacoesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
+
+        val call = RetrofitInitializer().transacaoService.listTransacoes()
+
+
+        call.enqueue(object : Callback<List<Transacao>> {
+            override fun onResponse(call: Call<List<Transacao>>?, response: Response<List<Transacao>>?) {
+                response?.body()?.let {
+                    transacoesList = it
+                    Log.e("DEUCERTO", "Tamanho ${transacoesList.size}")
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<Transacao>>?, t: Throwable?) {
+                Log.e("Faiô", t?.message)
+            }
+
+        } )
+
         configuraResumo()
         // configurando o adapter
         configuraLista()
-
-        val call = RetrofitInitializer().transacaoService().list()
-
-
 
         // Chamando o dialog passando os parametros para abrir uma despesa ou receita
         lista_transacoes_adiciona_receita.setOnClickListener {
@@ -132,17 +148,17 @@ class ListaTransacoesActivity : AppCompatActivity() {
         //Utilizando a propria view
         with(viewCriada) {
 
-                configuraCamposDialog(tipo, transacao, posicaoCategoria)
+            configuraCamposDialog(tipo, transacao, posicaoCategoria)
 
-                // Construindo o dialog com seus parametros e funcoes
-                AlertDialog.Builder(context)
-                        .setTitle(transacao.titulo)
-                        .setView(viewCriada)
-                        .setNegativeButton("Cancelar", null)
-                        .setPositiveButton("Alterar",{ dialogInterface, i ->
-                            updateTransacao(viewCriada, transacao, transacoesList)
-                        })
-                        .show()
+            // Construindo o dialog com seus parametros e funcoes
+            AlertDialog.Builder(context)
+                    .setTitle(transacao.titulo)
+                    .setView(viewCriada)
+                    .setNegativeButton("Cancelar", null)
+                    .setPositiveButton("Alterar",{ dialogInterface, i ->
+                        updateTransacao(viewCriada, transacao, transacoesList)
+                    })
+                    .show()
         }
     }
 
