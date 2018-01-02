@@ -38,14 +38,15 @@ class TransacaoDAO {
         ).toMutableList()
     }
 
-    fun getTransacoes() {
+    fun getTransacoes(transacaoResponse: TransacaoResponse) {
         val call = RetrofitInitializer().transacaoService.listTransacoes()
 
 
         call.enqueue(object : Callback<List<Transacao>> {
             override fun onResponse(call: Call<List<Transacao>>?, response: Response<List<Transacao>>?) {
                 response?.let {
-                    transacoesList = it.body()!!
+                    val transacoesList = it.body()!!
+                    transacaoResponse.success(transacoesList)
                     Log.e("DEUCERTO", "Tamanho ${transacoesList.size}")
 
                 }
@@ -71,4 +72,8 @@ class TransacaoDAO {
 
         Companion.transacoesList.removeAt(indexOf)
     }
+}
+interface TransacaoResponse {
+
+    fun success(transacoes: List<Transacao>)
 }

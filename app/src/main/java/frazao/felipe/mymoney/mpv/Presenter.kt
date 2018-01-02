@@ -18,9 +18,6 @@ class Presenter {
     }
     val transacoes = transacaoDAO.transacoesList
 
-    fun getTrasancao() {
-        transacaoDAO.getTransacoes()
-    }
     fun addTransact(viewCriada: View?, tipo: Tipo) {
 
         with(viewCriada) {

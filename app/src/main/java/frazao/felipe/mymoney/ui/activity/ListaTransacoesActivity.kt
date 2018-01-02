@@ -63,6 +63,11 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
         } )
 
+        TransacaoDAO().getTransacoes(object : TransacaoResponse {
+            override fun success(transacoes: List<Transacao>) {
+                configuraLista()
+            }
+        })
         configuraResumo()
         // configurando o adapter
         configuraLista()
