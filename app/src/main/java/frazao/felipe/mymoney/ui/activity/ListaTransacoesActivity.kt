@@ -44,33 +44,15 @@ class ListaTransacoesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-
-        val call = RetrofitInitializer().transacaoService.listTransacoes()
-
-
-        call.enqueue(object : Callback<List<Transacao>> {
-            override fun onResponse(call: Call<List<Transacao>>?, response: Response<List<Transacao>>?) {
-                response?.body()?.let {
-                    transacoesList = it
-                    Log.e("DEUCERTO", "Tamanho ${transacoesList.size}")
-
-                }
-            }
-
-            override fun onFailure(call: Call<List<Transacao>>?, t: Throwable?) {
-                Log.e("Faiô", t?.message)
-            }
-
-        } )
-
-        TransacaoDAO().getTransacoes(object : TransacaoResponse {
-            override fun success(transacoes: List<Transacao>) {
-                configuraLista()
-            }
-        })
         configuraResumo()
         // configurando o adapter
         configuraLista()
+
+        TransacaoDAO().getTransacoes(object : TransacaoResponse {
+            override fun success(transacoes: List<Transacao>) {
+                transacoes
+            }
+        })
 
         // Chamando o dialog passando os parametros para abrir uma despesa ou receita
         lista_transacoes_adiciona_receita.setOnClickListener {
@@ -213,6 +195,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun configuraResumo() {
+
         // Configurando e atualizando o resumoview a cada transacao alterada ou adicionada
 
         val resumoView = ResumoView(viewGroupdaActivity, transacoesList, this)

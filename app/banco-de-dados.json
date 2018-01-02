@@ -1,0 +1,31 @@
+{
+	"transacoes": [
+		{
+
+			"titulo": "Fone Xiaomi",
+			"valor": 73.5,
+			"tipo": "Despesa",
+			"categoria": "Compra"
+
+		},
+		{
+			"titulo": "CMS do Danilo",
+			"valor": 800.00,
+			"tipo":  "Receita",
+			"categoria": "Pagamento"
+		},
+		{
+			"titulo": "Holly Chuck Burger",
+			"valor": 30.00,
+			"tipo": "Despesa",
+			"categoria": "Comida"
+		},
+		{
+			"titulo": "Celular",
+			"valor": 550.00,
+			"tipo": "Despesa",
+			"categoria": "Compra"
+
+		}
+	]
+}

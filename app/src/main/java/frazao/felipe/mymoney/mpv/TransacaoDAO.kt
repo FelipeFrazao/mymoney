@@ -44,8 +44,8 @@ class TransacaoDAO {
 
         call.enqueue(object : Callback<List<Transacao>> {
             override fun onResponse(call: Call<List<Transacao>>?, response: Response<List<Transacao>>?) {
-                response?.let {
-                    val transacoesList = it.body()!!
+                response?.body()?.let {
+                    val transacoesList = it
                     transacaoResponse.success(transacoesList)
                     Log.e("DEUCERTO", "Tamanho ${transacoesList.size}")
 

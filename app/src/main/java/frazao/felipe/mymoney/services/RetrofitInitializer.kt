@@ -12,7 +12,7 @@ import okhttp3.OkHttpClient
 class  RetrofitInitializer {
 
     private val retrofit = Retrofit.Builder()
-            .baseUrl("http://demo5858539.mockable.io/")
+            .baseUrl("http://192.168.0.121:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
